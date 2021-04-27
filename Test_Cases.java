@@ -102,11 +102,11 @@ public class Test_Cases {
                for(int i=0;i<data.size();i++)
 	       {
                		System.out.println(data.get(i).getText());//printing all iPhone phones
-               if(data.get(i).getText().contains("New Apple iPhone 11(128 GB)"))//search for iphone11 only
-               {
-               		String link = data.get(i).getAttribute("href");//fetching all the links
-               		allLinks.add(link);//adding them to list
-               }
+              		if(data.get(i).getText().contains("New Apple iPhone 11(128 GB)"))//search for iphone11 only
+              			 {
+               				String link = data.get(i).getAttribute("href");//fetching all the links
+               				allLinks.add(link);//adding them to list
+             		         }
               		data = driver.findElements(By.xpath("//div[@id='products']/div/div/div/div[2]/div[@class='pu-title fk-font-13']/a"));// for cache
                }
 		
