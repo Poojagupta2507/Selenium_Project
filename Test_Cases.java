@@ -21,13 +21,20 @@ public class Test_Cases {
 	public static String browser="chrome"; //External Configuration -XLS, CSV
 	public static WebDriver driver;
 
-	public static void main(String[] args) throws Excpetion {
+	public static void main(String[] args) throws IOExcpetion {
 		// TODO Auto-generated method stub
 		
-		//WebDriverManager.chromedriver().setup();
-		//ChromeDriver driver =new ChromeDriver();
+		WebDriverManager.chromedriver().setup();
+		ChromeDriver driver =new ChromeDriver(); //launch Chrome
+		driver.get("http:www.google.com);
+                Thread.sleep(2000); //static wait
+		driver.manage().window().maximize();// maximize the window
+		driver.manage().deleteAllCookies(); //delete all the cookies
+		driver.manage().timeouts().pageloadTimeout(40,TimeUnit,SECONDS); //dynamic wait
+		driver.manage.timeouts().implicitlyWait(30,TimeUnit,SECONDS);    //implict wait specially for each elements presesnt on web browser.
 		
 		//For cross platforms
+		
 		if(browser.equals("chrome"))
 		{
 			WebDriverManager.chromeDriver().setup();
@@ -50,7 +57,22 @@ public class Test_Cases {
 		//1.Account Creation, since account has been created, jump to the signIn section.
 		
 		driver.get("https://www.amazon.in/ap/register?showRememberMe=true&openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.in%2Fb%3Fie%3DUTF8%26node%3D17369456031%26ref_%3Dnav_custrec_signin&prevRID=SRAY45QJGTEHPJQHQFJJ&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=inflex&openid.mode=checkid_setup&prepopulatedLoginId=&failedSignInCount=0&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&pageId=inflex&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0");
-                driver.findElement(By.id("ap_customer_name")).sendKeys("Pooja Bharti");
+                String title= driver.getTitle(); //get title
+                System.out.println(title);
+                
+		//Validation Point	   
+	        if(title.equals("Amazon");
+		    {
+			    System.out.println("Correct Title");
+		    }
+	        else
+		    {
+			    System.out.println("InCorrect Title");
+		    }
+                Thread.sleep(2000);
+		
+		//registration page	   
+	        driver.findElement(By.id("ap_customer_name")).sendKeys("Pooja Bharti");
                 driver.findElement(By.id("ap_phone_number")).sendKeys("72959*****");
                 driver.findElement(By.id("ap_email")).sendKeys("poojabharti*****@gmail.com");
                 driver.findElement(By.id("ap_password")).sendKeys("POOJA@***");
@@ -58,7 +80,7 @@ public class Test_Cases {
 		driver.manage().maximize();
 		driver.manage().timeouts().pageLoadTimeout(30,Timeout.SECONDS);
 
-		//2. sighIn
+		//2. sighIn page
 		
                 driver.get("https://www.amazon.in/ap/signin?openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.in%2F%3Fext_vrnc%3Dhi%26tag%3Dgooghydrabk-21%26ascsubtag%3D_k_Cj0KCQjw4ImEBhDFARIsAGOTMj81LCQikfAPwOmMpKGGty3Li22l-8wLnxvlvpxoUNe4Mn-TYffJTcMaAvZQEALw_wcB_k_%26ext_vrnc%3Dhi%26gclid%3DCj0KCQjw4ImEBhDFARIsAGOTMj81LCQikfAPwOmMpKGGty3Li22l-8wLnxvlvpxoUNe4Mn-TYffJTcMaAvZQEALw_wcB%26ref_%3Dnav_custrec_signin&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=inflex&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&");
                 driver.findElement(By.id("ap_email")).sendKeys("poojabharti*****@gmail.com");
@@ -91,9 +113,9 @@ public class Test_Cases {
                 driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[1]/div/div[1]/div/span[3]/div[2]/div[2]/div/span/div/div/div/div/div[2]/div[2]/div/div[1]/div/div/div[1]/h2/a/span")).click();
                 driver.findElement(By.xpath("//*[@id=\"add-to-cart-button\"]")).click();
 		
-		WebElement searchbox = driver.findElement(By.xpath("//*[@id='searchbox']/li[2]/form/input[4]"));
+		WebElement searchbox = driver.findElement(By.xpath("//*[@id='searchbox']/li[2]/form/input[4]")); //absolute Xpath
                 searchbox.sendKeys("New Apple iPhone 11(128 GB)");//in search box search for iPhone 11
-                driver.findElement(By.xpath("//*[@id='searchbox']/li[2]/form/input[5]")).click();//clicking on search icon
+                driver.findElement(By.xpath("//*[@id='searchbox']/li[2]/form/input[5]")).click(); //clicking on search icon
  
                 List<String> allLinks = new ArrayList<String>();  //Creates a List of type string, and the list can be potentially typecast into any other type of list
                 List<WebElement> data = driver.findElements(By.xpath("//div[@id='products']/div/div/div/div[2]/div[@class='pu-title fk-font-13']/a"));
@@ -109,8 +131,9 @@ public class Test_Cases {
              		         }
               		data = driver.findElements(By.xpath("//div[@id='products']/div/div/div/div[2]/div[@class='pu-title fk-font-13']/a"));// for cache
                }
-		
-              System.out.println(allLinks.size());//total iphone phones
+			   
+	      //total iphone phones
+              System.out.println(allLinks.size());
               for(int i=0;i<allLinks.size();i++)
 	      {
                        System.out.println(allLinks.get(i));
@@ -121,7 +144,7 @@ public class Test_Cases {
              for(int j=0;j<retails.size();j++)
                {
     
-                       System.out.println(retails.get(j).getText());//printing all the sellers info
+                       System.out.println(retails.get(j).getText());  //printing all the sellers info
    
                }
   
