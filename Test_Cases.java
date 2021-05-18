@@ -18,6 +18,14 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+
 
 
 public class Test_Cases {
@@ -177,6 +185,51 @@ public class Test_Cases {
 
 		    private String generateKey(Contact contact) {
 			return String.format("%s-%s", contact.getFirstName(), contact.getLastName());
+		    }
+		}
+		  
+		public class ContactManagerTest {
+
+		    private ContactManager contactManager;
+
+		    @BeforeEach
+		    public void setup() {
+			contactManager = new ContactManager();
+		    }
+
+		    @Test
+		    @DisplayName("Should Create Contact")
+		    public void shouldCreateContact() {
+			contactManager.addContact("Pooja", "Bharti", "79039*****");
+			assertFalse(contactManager.getAllContacts().isEmpty());
+		    }
+
+		    @Test
+		    @DisplayName("Should Not Create Contact When First Name is Null")
+		    public void shouldNotCreateContactWhenFirstNameIsNull() {
+			assertThrows(RuntimeException.class,
+				() -> contactManager.addContact(null,
+					"Bharti",
+					"790*******"));
+		    }
+
+		    @Test
+		    @DisplayName("Should Not Create Contact When Last Name is Null")
+		    public void shouldNotCreateContactWhenLastNameIsNull() {
+			assertThrows(RuntimeException.class,
+				() -> contactManager.addContact("Pooja",
+					null,
+					"79039*****"));
+		    }
+
+		    @Test
+		    @DisplayName("Should Not Create Contact When Phone Number is Null")
+		    public void shouldNotCreateContactWhenPhoneNumberIsNull() {
+			ContactManager contactManager = new ContactManager();
+			assertThrows(RuntimeException.class,
+				() -> contactManager.addContact("Pooja",
+					"Bharti",
+					null));
 		    }
 		}
         
