@@ -14,6 +14,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.NoSuchElementException;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 
 public class Test_Cases {
@@ -87,6 +91,94 @@ public class Test_Cases {
                 driver.findElement(By.xpath("//*[@id=\"continue\"]")).click();
                 driver.findElement(By.id("ap_password")).sendKeys("POOJA@****");
                 driver.findElement(By.xpath("//*[@id=\"signInSubmit\"]")).click();
+		   
+		//Validations using JUnit
+		  
+
+			public class Contact {
+			    private String firstName;
+			    private String lastName;
+			    private String phoneNumber;
+			    private String email_id;
+
+			    public Contact(String firstName, String lastName, String phoneNumber) {
+				this.firstName = firstName;
+				this.lastName = lastName;
+				this.phoneNumber = phoneNumber;
+				this.email_id = email_id;
+
+			    }
+
+			    public String getFirstName() {
+				return firstName;
+			    }
+
+			    public String getLastName() {
+				return lastName;
+			    }
+
+			    public void validateFirstName() {
+				if (this.firstName.isBlank())
+				    throw new RuntimeException("First Name Cannot be null or empty");
+			    }
+
+			    public void validateLastName() {
+				if (this.lastName.isBlank())
+				    throw new RuntimeException("Last Name Cannot be null or empty");
+			    }
+
+			    public void validateEmailId() {
+			    if(this.email_id.isBlank())
+				throw new RuntimeException("EmailId cannot be null");
+			    }
+
+			    public void validatePhoneNumber() {
+				if (this.phoneNumber.isBlank()) {
+				    throw new RuntimeException("Phone Name Cannot be null or empty");
+				}
+
+				if (this.phoneNumber.length() != 10) {
+				    throw new RuntimeException("Phone Number Should be 10 Digits Long");
+				}
+				if (!this.phoneNumber.matches("\\d+")) {
+				    throw new RuntimeException("Phone Number Contain only digits");
+				}
+				if (!this.phoneNumber.startsWith("0")) {
+				    throw new RuntimeException("Phone Number Should Start with 0");
+
+				}
+			    }
+			}
+		   
+	        public class ContactManager
+		   {
+
+			Map<String, Contact> contactList = new ConcurrentHashMap<String, Contact>();
+
+			public void addContact(String firstName, String lastName, String phoneNumber) {
+			Contact contact = new Contact(firstName, lastName, phoneNumber);
+			validateContact(contact);
+			checkIfContactAlreadyExist(contact);
+		 	contactList.put(generateKey(contact), contact);
+                   }
+
+		    public Collection<Contact> getAllContacts() {
+			return contactList.values();
+		    }
+
+		    private void checkIfContactAlreadyExist(Contact contact) {
+			if (contactList.containsKey(generateKey(contact)))
+			    throw new RuntimeException("Contact Already Exists");
+		    }
+		       contact.validateFirstName();
+			contact.validateLastName();
+			contact.validatePhoneNumber();
+		    }
+
+		    private String generateKey(Contact contact) {
+			return String.format("%s-%s", contact.getFirstName(), contact.getLastName());
+		    }
+		}
         
                //3. For Search
                 act.moveToElement(mainmenu).build().perform();//taking mouse
